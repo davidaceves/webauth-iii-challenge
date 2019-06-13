@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../helpers/api.js";
+import { withRouter } from "react-router-dom";
 
 class Login extends React.Component {
   state = {
@@ -19,6 +20,7 @@ class Login extends React.Component {
 
       //   document.cookie = `token=${result.data.token}`;
       localStorage.setItem("token", result.data.token);
+      this.props.history.push("/users");
     } catch (err) {
       console.log(err);
     }
@@ -57,4 +59,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);
