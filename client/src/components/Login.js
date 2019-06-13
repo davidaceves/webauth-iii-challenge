@@ -1,4 +1,5 @@
 import React from "react";
+import api from "../helpers/api.js";
 
 class Login extends React.Component {
   state = {
@@ -6,9 +7,21 @@ class Login extends React.Component {
     password: ""
   };
 
-  handleSubmit = evt => {
+  handleSubmit = async evt => {
     evt.preventDefault();
     console.log(this.state);
+
+    try {
+      const result = await api.post("/auth/login", {
+        username: this.state.username,
+        password: this.state.password
+      });
+
+      //   document.cookie = `token=${result.data.token}`;
+      localStorage.setItem("token", result.data.token);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   handleChange = evt => {
