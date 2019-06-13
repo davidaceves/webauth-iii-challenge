@@ -6,15 +6,16 @@ const secrets = require("../config/secrets.js");
 const Users = require("../users/users-model.js");
 
 function generateToken(user) {
-  return (
-    jwt.sign({
-      userId: user.id
-    }),
-    secrets.jwt,
-    {
-      expiresIn: "1h"
-    }
-  );
+  const payload = {
+    subject: user.id,
+    username: user.username
+  };
+
+  const options = {
+    expiresIn: "1h"
+  };
+
+  return jwt.sign(payload, secrets.jwtSecret, options);
 }
 
 router.post("/register", (req, res) => {
@@ -47,7 +48,7 @@ router.post("/login", (req, res) => {
 
         res.status(200).json({
           message: `Welcome ${user.username}`,
-          authToken: token
+          token
         });
       } else {
         res.status(401).json({

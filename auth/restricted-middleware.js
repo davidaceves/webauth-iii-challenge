@@ -1,14 +1,12 @@
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const secrets = require("../config/secrets.js");
-const Users = require("../users/users-model.js");
 
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
 
   if (token) {
-    jwt.verify(token, secrets.jwt, (err, payload) => {
+    jwt.verify(token, secrets.jwtSecret, (err, payload) => {
       if (err) {
         res.status(403).json({
           message: "You are not authorized!"
