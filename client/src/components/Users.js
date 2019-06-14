@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import api from "../helpers/api.js";
 
 class Users extends React.Component {
@@ -14,6 +15,9 @@ class Users extends React.Component {
         users: result.data
       });
     } catch (err) {
+      if (err.response.status === 401 || err.response.status === 403) {
+        this.props.history.push("/login");
+      }
       console.log(err);
     }
   }
@@ -22,14 +26,17 @@ class Users extends React.Component {
       <>
         <h3>Users</h3>
 
-        <ul>
-          {this.state.users.map((user, i) => {
-            return <li key={i}>{user.username}</li>;
-          })}
-        </ul>
+        {this.state.users.map((user, i) => {
+          return (
+            <ul>
+              <li key={user.id}>{user.username}</li>
+              <li key={i}>{user.department}</li>
+            </ul>
+          );
+        })}
       </>
     );
   }
 }
 
-export default Users;
+export default withRouter(Users);

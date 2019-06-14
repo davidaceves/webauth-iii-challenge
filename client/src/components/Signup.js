@@ -3,18 +3,17 @@ import api from "../helpers/api.js";
 
 class Signup extends React.Component {
   state = {
-    fullname: "",
+    department: "",
     username: "",
     password: ""
   };
 
   handleSubmit = async evt => {
     evt.preventDefault();
-    console.log(this.state);
 
     try {
       const result = await api.post("/auth/register", {
-        fullname: this.state.fullname,
+        department: this.state.department,
         username: this.state.username,
         password: this.state.password
       });
@@ -39,10 +38,10 @@ class Signup extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <input
             type="text"
-            name="fullname"
-            placeholder="Fullname"
+            name="department"
+            placeholder="Department"
             onChange={this.handleChange}
-            value={this.state.fullname}
+            value={this.state.department}
           />
           <input
             type="text"
@@ -58,7 +57,7 @@ class Signup extends React.Component {
             onChange={this.handleChange}
             value={this.state.password}
           />
-          <button type="submit">Login</button>
+          <button type="submit">Signup</button>
         </form>
       </>
     );
